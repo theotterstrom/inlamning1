@@ -34,19 +34,14 @@
                     
                 </ComboBox>
             </StackPanel>
-            
-            
-            <ComboBox Visibility="Hidden" FontSize="20" Margin="10,0,0,0" Width="200" Name="urgencyselector" >
-                <ComboBoxItem Content="Dog"></ComboBoxItem>
-                <ComboBoxItem Content="Cat"></ComboBoxItem>
-            </ComboBox>
+
 
         </Grid>
         <Grid Grid.Row="2">
             <Label Content="Type" FontWeight="Bold" Margin="10, 0,0,0"></Label>
             <ComboBox Margin="10, 0,0,0" FontSize="10" Height="20" Width="280" VerticalAlignment="Bottom" HorizontalAlignment="Left" Name="typeComboBox">
-                <ComboBoxItem Content="Dog"></ComboBoxItem>
-                <ComboBoxItem Content="Cat"></ComboBoxItem>
+                <ComboBoxItem Content="Dog" Name="dawg"></ComboBoxItem>
+                <ComboBoxItem Content="Cat" Name="pussycat"></ComboBoxItem>
             </ComboBox>
         </Grid>
 

@@ -9,4 +9,10 @@
 	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="AnimalClasses">
+      <HintPath>..\AnimalClasses\AnimalClasses\bin\Debug\net6.0\AnimalClasses.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
