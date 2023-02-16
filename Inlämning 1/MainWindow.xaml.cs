@@ -15,19 +15,22 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
 using AnimalClasses;
+using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace Inlämning_1
 {
     public partial class MainWindow : Window
     {   
-        public AnimalCollection animalCol = new AnimalCollection();
+        public ObservableCollection<Animal> animalList { get; set; } = new ObservableCollection<Animal>();
         
         public MainWindow()
         {
             InitializeComponent();
-            animalCol.animalList.CollectionChanged += AnimalList_CollectionChanged;
+            DataContext = this;
             regBox.SelectionChanged += RegBox_SelectionChanged;
             readFile();
+            Thread.Sleep(1000);
         }
 
         private void RegBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -37,7 +40,7 @@ namespace Inlämning_1
             if(selRegBoxItem != null)
             {
                 string selRegNr = selRegBoxItem.Content.ToString();
-                foreach (Animal an in animalCol.animalList)
+                foreach (Animal an in animalList)
                 {
                     if (an.regNr == selRegNr)
                     {
@@ -63,23 +66,10 @@ namespace Inlämning_1
             }
         }
 
-        private void AnimalList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            regBox.Items.Clear();
-
-            foreach(Animal an in animalCol.animalList)
-            {
-                ComboBoxItem tempItem = new ComboBoxItem();
-                tempItem.Content = an.regNr;
-                
-                regBox.Items.Add(tempItem);
-            }
-        }
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             bool redundant = false;
-            foreach(Animal an in animalCol.animalList)
+            foreach(Animal an in animalList)
             {
                 if(an.regNr == regBox.Text)
                 {
@@ -101,13 +91,23 @@ namespace Inlämning_1
             {
                 ComboBox cmb = (ComboBox)typeComboBox;
                 ComboBoxItem dogOrCat = (ComboBoxItem)cmb.SelectedItem;
-                bool isDog = true;
+ 
                 if (dogOrCat.Content.ToString() == "Cat")
                 {
-                    isDog = false;
+                    Cat tempcat = new Cat();
+                    tempcat.regNr = regBox.Text;
+                    tempcat.description = descBox.Text;
+                    tempcat.race = raceBox.Text;
+                    animalList.Add(tempcat);
                 }
-
-                animalCol.createAnimal(regBox.Text, isDog, descBox.Text, raceBox.Text);
+                else
+                {
+                    Dog tempdog = new Dog();
+                    tempdog.regNr = regBox.Text;
+                    tempdog.description = descBox.Text;
+                    tempdog.race = raceBox.Text;
+                    animalList.Add(tempdog);
+                }
                 regBox.Text = "";
                 descBox.Text = "";
                 raceBox.Text = "";
@@ -118,7 +118,6 @@ namespace Inlämning_1
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             List<String> strList = new List<String>();
-            var animalList = animalCol.animalList;
 
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             saveFileDialog1.Filter = "Text (*.csv)|*.csv";
@@ -166,7 +165,7 @@ namespace Inlämning_1
                             description = words[2].Split(':')[1],
                             isDog = isDog
                         };
-                        animalCol.animalList.Add(animal);
+                        animalList.Add(animal);
                     }
                 }
             }

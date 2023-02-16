@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AnimalClasses
 {
-    public class Animal : AnimalCollection
+    public class Animal
     {
         public String regNr { get; set; }
         public String race { get; set; }
